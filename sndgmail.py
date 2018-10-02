@@ -54,12 +54,8 @@ if __name__ == "__main__":
  fromaddr = sys.argv[2]
  password = sys.argv[3]
  subject = sys.argv[4]
- body=''
- if len(sys.argv) >= 5:
-  body = sys.argv[4]
- attach_full_path=''
- if len(sys.argv) >= 6:
-  attach_full_path = sys.argv[5]
+ body = sys.argv[5] if len(sys.argv) >= 6 else ''
+ attach_full_path = sys.argv[6] if len(sys.argv) >= 7 else ''
 
  send_email(toaddr,         \
             fromaddr,       \
