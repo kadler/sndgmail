@@ -2,10 +2,9 @@ import sys
 import os.path
 import smtplib
 
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
-from email import encoders
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 
 #--------------------------------------------------------------------------
 # send_mail: Enva un email usando SMTP, usando los siguientes paetros:
@@ -22,7 +21,7 @@ def send_email(toaddr,
                password,
                subject,
                body='',
-               attachfp='',
+               attachfp=None,
                ):
   try:
      msg = MIMEMultipart()
@@ -30,13 +29,12 @@ def send_email(toaddr,
      msg['To'] = toaddr
      msg['Subject'] = subject
      msg.attach(MIMEText(body, 'plain'))
-     if attachfp <> '':
-       part = MIMEBase('application', "octet-stream")
-       part.set_payload( open(file,"rb").read() )
-       Encoders.encode_base64(part)
-       part.add_header('Content-Disposition', 'attachment; filename="%s"'
+     if attachfp:
+       with open(attachfp, "rb") as fp:
+         part = MIMEApplication(fp.read())
+         part.add_header('Content-Disposition', 'attachment; filename="%s"'
                        % os.path.basename(attachfp))
-       msg.attach(part)
+         msg.attach(part)
 
      server = smtplib.SMTP('smtp.gmail.com', 587)
      server.starttls()
@@ -44,8 +42,8 @@ def send_email(toaddr,
      text = msg.as_string()
      server.sendmail(fromaddr, toaddr, text)
      server.quit()
-  except:   
-     pass 
+  except:
+     pass
 #--------------------------------------------------------------------------
 # Punto de Entrada del Programa
 #--------------------------------------------------------------------------

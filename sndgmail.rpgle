@@ -42,7 +42,7 @@ dcl-proc Main;
                    '"'+%Trim(Attach               )+'" '+
                            
     command = 'STRQSH CMD('''+
-                            'python '                   +
+                            'python3 '                  +
                             %trim(py_script_full_path)  +
                             ' '                         +
                             params_string               +
