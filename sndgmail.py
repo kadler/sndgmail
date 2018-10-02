@@ -1,10 +1,5 @@
 import sys
-import os
 import os.path
-import datetime
-import tempfile
-import re
-import shutil
 import smtplib
 
 from email.MIMEMultipart import MIMEMultipart
